@@ -169,7 +169,7 @@ const AMPMClockRE = /A/;
 export default {
 
     props: {
-        value: {
+        modelValue: {
             type: String,
             default: ''
         },
@@ -267,7 +267,7 @@ export default {
             positionClass: undefined,
             opened: !this.hasInputElement,
             currentPeriod: this.startPeriod || this.getPeriodFromValue(
-                this.value, this.format
+                this.modelValue, this.format
             )
         };
     },
@@ -276,7 +276,7 @@ export default {
 
         valueDate() {
 
-            const value = this.value;
+            const value = this.modelValue;
             const format = this.format;
 
             return value
@@ -294,7 +294,7 @@ export default {
 
             const valueDate = this.valueDate;
 
-            return this.value ? Boolean(valueDate) : true;
+            return this.modelValue ? Boolean(valueDate) : true;
 
         },
 
@@ -426,7 +426,7 @@ export default {
 
     watch: {
 
-        value(value) {
+        modelValue(value) {
 
             if (this.isValidValue) {
                 this.inputValue = this.valueToInputFormat(value);
@@ -590,7 +590,7 @@ export default {
 
             this.inputValue = userText;
 
-            this.$emit('input', userDate
+            this.$emit('update:modelValue', userDate
                 ? this.formatDateToString(userDate, this.format)
                 : userText
             );
@@ -608,7 +608,7 @@ export default {
             if (!this.opened) {
                 this.opened = true;
                 this.currentPeriod = this.startPeriod || this.getPeriodFromValue(
-                    this.value, this.format
+                    this.modelValue, this.format
                 );
                 this.addCloseEvents();
                 this.setupPosition();
@@ -739,7 +739,7 @@ export default {
 
         clear() {
 
-            this.$emit('input', '');
+            this.$emit('update:modelValue', '');
 
         },
 
@@ -755,7 +755,7 @@ export default {
                     newDate.setSeconds(this.currentTime.seconds);
                 }
 
-                this.$emit('input', this.formatDateToString(newDate, this.format));
+                this.$emit('update:modelValue', this.formatDateToString(newDate, this.format));
 
                 if (this.hasInputElement && !this.pickTime) {
                     this.close();
@@ -791,7 +791,7 @@ export default {
                 : numValue
             );
             event.target.value = paddNum(numValue, 1);
-            this.$emit('input', this.formatDateToString(currentDate, this.format));
+            this.$emit('update:modelValue', this.formatDateToString(currentDate, this.format));
 
         },
 
@@ -804,7 +804,7 @@ export default {
             event.target.value = paddNum(numValue, 2);
             currentDate[method](numValue);
 
-            this.$emit('input', this.formatDateToString(currentDate, this.format));
+            this.$emit('update:modelValue', this.formatDateToString(currentDate, this.format));
 
         },
 
